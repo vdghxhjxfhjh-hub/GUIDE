@@ -1,0 +1,7 @@
+(()=>{'use strict';
+// The access sequence is fictional presentation, not password authentication.
+const input=document.getElementById('access-key'),progress=document.getElementById('progress'),status=document.getElementById('status'),percent=document.getElementById('percent'),auth=document.getElementById('auth'),reveal=document.getElementById('reveal');
+const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+async function enter(){await sleep(reduced?150:650);status.textContent='접근 키 확인 중';for(let i=1;i<=12;i++){input.value='0'.repeat(i);const p=Math.round(i/12*100);progress.style.width=p+'%';percent.textContent=String(p).padStart(2,'0')+'%';await sleep(reduced?35:140+(i%3)*35)}auth.classList.add('done');document.getElementById('field-end').textContent='✓';document.querySelector('.cursor').style.display='none';status.textContent='접근 승인';await sleep(reduced?250:800);auth.classList.add('hidden');await sleep(reduced?200:750);auth.hidden=true;document.body.dataset.stage='title';reveal.classList.add('visible');await sleep(reduced?600:2900);document.body.dataset.stage='exit';await sleep(reduced?250:1800);document.body.dataset.stage='lobby';document.getElementById('intro').hidden=true;document.title='GUIDE — '+window.GUIDE_ACCOUNTS[document.body.dataset.role||'assistant'].label+' 업무 포털';document.getElementById('portal').hidden=false;}enter();
+})();
